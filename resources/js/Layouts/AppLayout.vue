@@ -34,6 +34,7 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-platinum dark:bg-vampire-gray text-jet">
+            
             <nav class="bg-jet dark:bg-vampire-gray border-b border-gray-100 dark:border-gray-700 text-platinum">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,7 +56,8 @@ const logout = () => {
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
-                            <div class="ms-3 relative">
+                            <!-- Turn on Teams functionality by setting teams to !teams -->
+                            <div v-if="!teams" class="ms-3 relative">
                                 <!-- Teams Dropdown -->
                                 <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
                                     <template #trigger>
@@ -271,7 +273,7 @@ const logout = () => {
                         </div>
                     </div>
                 </div>
-            </nav>
+            </nav> -->
 
             <!-- Page Heading -->
             <header v-if="$slots.header" class="bg-white dark:bg-gray-800 shadow">
