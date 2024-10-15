@@ -1,3 +1,3 @@
 <template>
-    <img class="block h-20 w-auto" src="img/grayscale-transparent.png" alt="">
+    <img class="block h-20 w-auto" src="img/forloopLogoGradient.png" alt="">
 </template>
