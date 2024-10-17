@@ -30,16 +30,16 @@ defineProps({
             justify-around 
             content-center 
             bg-platinum 
-            lg:h-2/6 
-            bg-[url('/img/Hero1.jpg')] 
+            h-2/6 
+            bg-[url('/img/Hero1.jpg')] logo_green_transparent.png
             bg-fixed 
             bg-auto 
             bg-no-repeat
             bg-center 
             lg:bg-left">
             <div class="bg-jet bg-opacity-65 w-full lg:flex justify-around px-10 pt-10">
-                <div class="lg:w-1/4 mt-6 mb-10 lg:ml-10 mx-auto">
-                    <img class="block h-52 lg:h-52 w-auto" src="img/forloopLogoGradientName.png" alt="">
+                <div class="lg:w-1/4 mt-20 mb-10 ml-20 mx-auto">
+                    <img class="block h-52 lg:h-52 w-auto" src="img/logo_name_light.png" alt="">
                 </div>
                 <div class='text-platinum md:text-center lg:w-3/4'>
                     <h1 class="mt-8 text-5xl lg:text-8xl font-medium text-platinum dark:text-white">Welcome to Forloop</h1>
@@ -90,13 +90,13 @@ defineProps({
                             <div class="w-10/12 mx-auto">
                                 <img class="rounded-xl shadow-2xl" src="img/laptopImage.jpg" alt="">
                             </div>
-                            <div class="w-10/12 mx-auto bg-opacity-25 shadow-xl px-8 py-20 bg-persianGreen border border-pistachio rounded-xl my-40">
+                            <div class="w-10/12 mx-auto bg-opacity-75 shadow-xl px-8 py-20 bg-persianGreen border border-pistachio rounded-xl my-40 bg-[url('/img/logo_green_transparent.png')] ">
                                 <h1 class="text-4xl font-medium text-gray-900 dark:text-white">
                                     Why Choose Forloop?
                                 </h1>
 
                                 <div clas='w-2/4'>
-                                    <p class="mt-6 leading-relaxed">
+                                    <p class="mt-6 text-xl leading-relaxed">
                                         We combine technical expertise with a deep understanding of business processes,
                                         ensuring our solutions are effective, scalable, and tailored to your needs.
                                         Discover how we can help you streamline operations, enhance your digital presence,
@@ -129,7 +129,7 @@ defineProps({
                             </ul>
                             <p class="ms-3 text-lg my-2">Let us develop a solution that’s not only innovative but also integrates seamlessly with your operations.</p>
                         </div>
-                        <div class="bg-platinum border border-jet shadow-xl rounded-xl py-8 mx-10 my-10 lg:mx-1 lg:w-1/4 bg-opacity-75">
+                        <div class="bg-platinum border border-jet shadow-xl rounded-xl py-8 px-3 mx-10 my-10 lg:mx-1 lg:w-1/4 bg-opacity-75">
                             <div class="w-1/4 mx-auto mb-10">
                                 <img class="h-20" src="img/webDevIcon.svg" alt="">    
                             </div>
