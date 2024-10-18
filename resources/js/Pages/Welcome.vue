@@ -37,12 +37,12 @@ defineProps({
             bg-no-repeat
             bg-center 
             lg:bg-left">
-            <div class="bg-jet bg-opacity-65 w-full lg:flex justify-around px-10 pt-10">
-                <div class="lg:w-1/4 mt-20 mb-10 ml-20 mx-auto">
-                    <img class="block h-52 lg:h-52 w-auto" src="img/logo_name_light.png" alt="">
+            <div class="bg-jet bg-opacity-65 w-full lg:flex text-center md-text-left justify-around px-10 pt-10">
+                <div class="lg:w-1/4 lg:mt-20 lg:mb-10 lg:ml-20 mx-auto">
+                    <img class="block h-52 w-auto" src="img/logo_name_light.png" alt="">
                 </div>
                 <div class='text-platinum md:text-center lg:w-3/4'>
-                    <h1 class="mt-8 text-5xl lg:text-8xl font-medium text-platinum dark:text-white">Welcome to Forloop</h1>
+                    <h1 class="mt-8 text-4xl lg:text-8xl font-medium text-platinum dark:text-white">Welcome to Forloop</h1>
                     <h1 class="mt-8 text-4xl lg:text-5xl font-medium dark:text-white">
                         Your Solution to Streamlined Processes
                     </h1>
@@ -62,7 +62,7 @@ defineProps({
                 <div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8 mx-auto w-full">
                         <div class="p-10">
-                            <div class="w-full text-center mb-2.5 mt-48">
+                            <div class="w-full text-center mb-2.5 lg:mt-48">
                                 <h2 class="ms-3 text-5xl lg:text-9xl font-semibold text-gray-900 dark:text-white">
                                     Our Expertise
                                 </h2>
@@ -86,11 +86,11 @@ defineProps({
                                 </ol>
                             </div>
                         </div>
-                        <div class="py-20 px-10">
-                            <div class="w-10/12 mx-auto">
+                        <div class="lg:py-20 lg:px-10">
+                            <div class="lg:w-10/12 mx-auto">
                                 <img class="rounded-xl shadow-2xl" src="img/laptopImage.jpg" alt="">
                             </div>
-                            <div class="w-10/12 mx-auto bg-opacity-75 shadow-xl px-8 py-20 bg-persianGreen border border-pistachio rounded-xl my-40 bg-[url('/img/logo_green_transparent.png')] ">
+                            <div class="lg:w-10/12 mx-auto bg-opacity-75 shadow-xl px-8 py-8 lg:py-20 bg-persianGreen border border-pistachio rounded-xl my-20 lg:my-40 bg-[url('/img/logo_green_transparent.png')] ">
                                 <h1 class="text-4xl font-medium text-gray-900 dark:text-white">
                                     Why Choose Forloop?
                                 </h1>
