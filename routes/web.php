@@ -24,6 +24,14 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/blog', function () {
+    return Inertia::render('Blog/Index');
+})->name('blog');
+
+Route::get('/blog/swap-command-control-keys-mac', function () {
+    return Inertia::render('Blog/SwapCommandControl');
+})->name('blog.swap-command-control');
+
 // Route::middleware([
 //     'auth:sanctum',
 //     config('jetstream.auth_session'),
