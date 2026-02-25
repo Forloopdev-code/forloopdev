@@ -41,9 +41,9 @@ export default {
                 sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: {
-                'brand-gradient': 'linear-gradient(135deg, #8ED081 0%, #1EA896 50%, #3066BE 100%)',
+                'brand-gradient':   'linear-gradient(135deg, #8ED081 0%, #1EA896 50%, #3066BE 100%)',
                 'brand-gradient-r': 'linear-gradient(to right, #8ED081, #1EA896, #3066BE)',
-                'hero-overlay': 'linear-gradient(to bottom, rgba(54,53,55,0.7) 0%, rgba(54,53,55,0.85) 100%)',
+                'hero-overlay':     'linear-gradient(to bottom, rgba(54,53,55,0.7) 0%, rgba(54,53,55,0.85) 100%)',
             },
         },
     },
