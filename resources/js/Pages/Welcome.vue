@@ -1,300 +1,286 @@
 <script setup>
+import { ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
 });
+
+const mobileMenuOpen = ref(false);
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="Forloop – Software Development & Web Solutions" />
 
-    <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-        <!-- Uncomment the code below to access register/login funtionality -->
-        <!-- <div v-if="canLogin" class="sm:fixed sm:top-0 sm:end-0 p-6 text-end z-10">
-            <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</Link>
+    <div class="min-h-screen bg-neutral-900 font-sans">
 
-            <template v-else>
-                <Link :href="route('login')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</Link>
-
-                <Link v-if="canRegister" :href="route('register')" class="ms-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</Link>
-            </template>
-        </div> -->
-
-        
-        <div class="mx-auto">
-            <div class="flex
-            justify-around 
-            content-center 
-            bg-platinum 
-            h-2/6 
-            bg-[url('/img/Hero1.jpg')] logo_green_transparent.png
-            bg-fixed 
-            bg-auto 
-            bg-no-repeat
-            bg-center 
-            lg:bg-left">
-            <div class="bg-jet bg-opacity-65 w-full lg:flex text-center md-text-left justify-around px-10 pt-10">
-                <div class="lg:w-1/4 lg:mt-20 lg:mb-10 lg:ml-20 mx-auto">
-                    <img class="block h-52 w-auto" src="img/logo_name_light.png" alt="">
+        <!-- ── Navbar ─────────────────────────────────────────── -->
+        <nav class="fixed top-0 inset-x-0 z-50 bg-jet/95 backdrop-blur border-b border-neutral-800">
+            <div class="max-w-7xl mx-auto px-5 sm:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <Link href="/">
+                        <img class="h-9 w-auto" src="img/logo_name_light.png" alt="Forloop">
+                    </Link>
+                    <div class="hidden md:flex items-center gap-8">
+                        <Link href="/blog" class="text-platinum/80 hover:text-pistachio text-sm font-semibold tracking-wide uppercase transition-colors duration-150">Blog</Link>
+                        <Link v-if="canLogin && !$page.props.auth.user" :href="route('login')"
+                            class="text-sm font-bold px-4 py-2 border border-persianGreen text-persianGreen hover:bg-persianGreen hover:text-white rounded transition-all duration-150">
+                            Log In
+                        </Link>
+                        <Link v-if="$page.props.auth.user" :href="route('dashboard')"
+                            class="text-sm font-bold px-4 py-2 bg-persianGreen text-white rounded hover:bg-pistachio transition-all duration-150">
+                            Dashboard
+                        </Link>
+                    </div>
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-platinum focus:outline-none">
+                        <svg v-if="!mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <svg v-else class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
                 </div>
-                <div class='text-platinum md:text-center lg:w-3/4'>
-                    <h1 class="mt-8 text-4xl lg:text-8xl font-medium text-platinum dark:text-white">Welcome to Forloop</h1>
-                    <h1 class="mt-8 text-4xl lg:text-5xl font-medium dark:text-white">
-                        Your Solution to Streamlined Processes
+            </div>
+            <div v-if="mobileMenuOpen" class="md:hidden bg-jet border-t border-neutral-800">
+                <div class="px-5 py-4 flex flex-col gap-3">
+                    <Link href="/blog" class="text-platinum/80 text-sm font-semibold tracking-wide uppercase">Blog</Link>
+                    <Link v-if="canLogin && !$page.props.auth.user" :href="route('login')" class="text-persianGreen text-sm font-bold">Log In</Link>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ── Hero ──────────────────────────────────────────── -->
+        <section class="relative min-h-screen flex items-center overflow-hidden pt-16">
+            <!-- Background image -->
+            <div class="absolute inset-0 bg-[url('/img/Hero1.jpg')] bg-cover bg-center bg-no-repeat"></div>
+            <!-- Dark overlay -->
+            <div class="absolute inset-0 bg-jet/80"></div>
+            <!-- Gradient accent — top right -->
+            <div class="absolute top-0 right-0 w-1/2 h-full opacity-20"
+                style="background: radial-gradient(ellipse at top right, #3066BE 0%, transparent 60%)"></div>
+            <!-- Gradient accent — bottom left -->
+            <div class="absolute bottom-0 left-0 w-96 h-96 opacity-15 rounded-full blur-3xl"
+                style="background: radial-gradient(circle, #1EA896 0%, transparent 70%)"></div>
+
+            <!-- Circuit line decoration -->
+            <svg class="absolute right-0 top-0 h-full w-1/3 opacity-5" viewBox="0 0 400 800" fill="none" preserveAspectRatio="xMidYMid slice">
+                <circle cx="300" cy="150" r="8" stroke="#8ED081" stroke-width="2"/>
+                <circle cx="180" cy="350" r="6" stroke="#1EA896" stroke-width="2"/>
+                <circle cx="320" cy="550" r="10" stroke="#3066BE" stroke-width="2"/>
+                <polyline points="300,150 300,260 180,260 180,350" stroke="#8ED081" stroke-width="1.5"/>
+                <polyline points="180,350 180,460 320,460 320,550" stroke="#1EA896" stroke-width="1.5"/>
+                <polyline points="320,550 320,650 240,650" stroke="#3066BE" stroke-width="1.5"/>
+                <circle cx="240" cy="650" r="5" stroke="#3066BE" stroke-width="2"/>
+                <line x1="120" y1="100" x2="260" y2="100" stroke="#8ED081" stroke-width="1"/>
+                <line x1="80" y1="200" x2="200" y2="200" stroke="#1EA896" stroke-width="1"/>
+            </svg>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 py-24 lg:py-36">
+                <div class="max-w-3xl">
+                    <!-- Gradient label -->
+                    <div class="inline-flex items-center gap-2 mb-6">
+                        <div class="h-px w-8" style="background: linear-gradient(to right, #8ED081, #3066BE)"></div>
+                        <span class="text-xs font-bold tracking-widest uppercase text-persianGreen">Software · Web · Drone</span>
+                    </div>
+                    <h1 class="text-5xl sm:text-6xl lg:text-8xl font-black leading-none tracking-tight text-white mb-6 uppercase">
+                        Built for<br>
+                        <span style="background: linear-gradient(135deg, #8ED081, #1EA896, #3066BE); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            Results
+                        </span>
                     </h1>
-                    <div class="mt-6 mb-10">
-                        <p class="text-white text-lg lg:text-2xl dark:text-gray-400 leading-relaxed">
-                            At Forloop, we specialize in creating innovative software that 
-                            improves processes and solves complex problems. Whether you're 
-                            looking to optimize operations or enhance your business efficiency,
-                            our custom solutions are tailored to meet your unique needs.
-                        </p>    
-                    </div>
-                </div>
-                </div>
-            </div>
-
-            <div class="text-jet">
-                <div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8 mx-auto w-full">
-                        <div class="p-10">
-                            <div class="w-full text-center mb-2.5 lg:mt-48">
-                                <h2 class="ms-3 text-5xl lg:text-9xl font-semibold text-gray-900 dark:text-white">
-                                    Our Expertise
-                                </h2>
-                            </div>
-                                
-                            <h3 class="ms-3 text-xl lg:text-2xl font-semibold text-gray-900 text-center dark:text-white my-10">
-                                Process Improvement &amp; Problem-Solving Software
-                            </h3>
-
-                            <div class="mt-4 text-xl lg:text-2xl">
-                                <ol class="list-disc">
-                                    <li>
-                                        We develop software to automate tasks, streamline workflows, and solve bottlenecks, simplifying your processes.
-                                    </li>
-                                    <li>
-                                        WordPress &amp; Web Development: We build responsive, dynamic websites, from custom WordPress to full-stack solutions, ensuring performance and scalability.
-                                    </li>
-                                    <li>
-                                        Drone Videography: Capture stunning aerial footage for real estate, marketing, and events with our professional drone services.
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                        <div class="lg:py-20 lg:px-10">
-                            <div class="lg:w-10/12 mx-auto">
-                                <img class="rounded-xl shadow-2xl" src="img/laptopImage.jpg" alt="">
-                            </div>
-                            <div class="lg:w-10/12 mx-auto bg-opacity-75 shadow-xl px-8 py-8 lg:py-20 bg-persianGreen border border-pistachio rounded-xl my-20 lg:my-40 bg-[url('/img/logo_green_transparent.png')] ">
-                                <h1 class="text-4xl font-medium text-gray-900 dark:text-white">
-                                    Why Choose Forloop?
-                                </h1>
-
-                                <div clas='w-2/4'>
-                                    <p class="mt-6 text-xl leading-relaxed">
-                                        We combine technical expertise with a deep understanding of business processes,
-                                        ensuring our solutions are effective, scalable, and tailored to your needs.
-                                        Discover how we can help you streamline operations, enhance your digital presence,
-                                        and capture stunning aerial footage.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lg:flex mx-auto justify-around">
-                        <div class="bg-platinum border border-jet shadow-xl rounded-xl py-8 px-3 mx-10 my-10 lg:mx-1 lg:w-1/4 bg-opacity-75">
-                            <div class="w-1/4 mx-auto mb-10">
-                                <img class="h-20" src="img/processIcon.svg" alt="">    
-                            </div>
-                            <h2 class="ms-3 text-4xl font-semibold text-gray-900 dark:text-white">Software Development</h2>
-                            <h3 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">Process Improvement &amp; Problem Solving Software</h3>
-                            <p class="ms-3 text-lg">
-                                At Forloop, we design custom software to improve workflows, eliminate inefficiencies,
-                                and solve your toughest business challenges. Whether you’re looking for automation,
-                                data management, or a full-scale process overhaul, our team creates solutions that fit your needs perfectly.
-                            </p>
-                            <p class="ms-3 text-lg font-semibold my-2">
-                                Our Expertise Includes:
-                            </p>
-                            <ul class="list-disc ml-4">
-                                <li class="ms-3 text-lg ">Custom Software Development: Tailored to address specific business needs.</li>
-                                <li class="ms-3 text-lg ">Process Automation: Streamlining repetitive tasks for efficiency.</li>
-                                <li class="ms-3 text-lg ">Business Intelligence Tools: Harness data to drive smarter decision-making.</li>
-                            </ul>
-                            <p class="ms-3 text-lg my-2">Let us develop a solution that’s not only innovative but also integrates seamlessly with your operations.</p>
-                        </div>
-                        <div class="bg-platinum border border-jet shadow-xl rounded-xl py-8 px-3 mx-10 my-10 lg:mx-1 lg:w-1/4 bg-opacity-75">
-                            <div class="w-1/4 mx-auto mb-10">
-                                <img class="h-20" src="img/webDevIcon.svg" alt="">    
-                            </div>
-                            <h2 class="ms-3 text-4xl font-semibold text-gray-900 dark:text-white">Web Development &amp; WordPress</h2>
-                            <h3 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">Building Digital Experiences That Drive Results</h3>
-                            <p class="ms-3 text-lg">
-                                From a beautifully designed WordPress site to full-stack web development,
-                                Forloop brings your vision to life online. We specialize in creating responsive,
-                                user-friendly websites that offer a seamless experience for visitors,
-                                whether you're looking to revamp an existing site or launch a new one.
-                            </p>
-                            <p class="ms-3 text-lg font-semibold my-2">
-                                Our Web Development Services Include:
-                            </p>
-                            <ul class="list-disc ml-4">
-                                <li class="ms-3 text-lg ">Custom WordPress Solutions: Fully customizable, SEO-optimized, and mobile-ready.</li>
-                                <li class="ms-3 text-lg ">Full-Stack Web Development: Scalable and robust web apps tailored to your needs.</li>
-                                <li class="ms-3 text-lg ">UX/UI Design: Crafting intuitive and engaging user experiences.</li>
-                            </ul>
-                            <p class="ms-3 text-lg my-2">Your website is often the first impression customers have of your business. Let’s make it count.</p>
-                        </div>
-                        <div class="bg-platinum border border-jet shadow-xl rounded-xl py-8 px-3 mx-10 my-10 lg:mx-1 lg:w-1/4 bg-opacity-75">
-                            <div class="w-1/4 mx-auto mb-10">
-                                <img class="h-20" src="img/droneIcon.svg" alt="">    
-                            </div>
-                            <h2 class="ms-3 text-4xl font-semibold text-gray-900 dark:text-white">Drone Videography</h2>
-                            <h3 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">Capture Stunning Aerial Perspectives with Forloop</h3>
-                            <p class="ms-3 text-lg">
-                                Our drone videography services offer a unique way to showcase your business,
-                                property, or event. With professional-grade equipment and experienced pilots,
-                                we deliver high-quality aerial footage that provides a new viewpoint on the world below.
-                            </p>
-                            <p class="ms-3 text-lg font-semibold my-2">
-                                Perfect for:
-                            </p>
-                            <ul class="list-disc ml-4">
-                                <li class="ms-3 text-lg ">Real Estate Marketing</li>
-                                <li class="ms-3 text-lg ">Event Coverage</li>
-                                <li class="ms-3 text-lg ">Construction and Project Monitoring</li>
-                                <li class="ms-3 text-lg ">Tourism and Hospitality Promotion</li>
-                            </ul>
-                            <p class="ms-3 text-lg my-2">We ensure each project is tailored to meet your objectives, providing breathtaking visuals that elevate your brand or project.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex justify-around my-44">
-                    <img class="block h-20 lg:h-40 w-auto" src="img/laravel-2.svg" alt="">
-                    <img class="block h-20 lg:h-40 w-auto" src="img/python-5.svg" alt="">
-                    <img class="block h-20 lg:h-40 w-auto" src="img/vue-9.svg" alt="">
-                    <img class="block h-20 lg:h-40 w-auto" src="img/wordpress-icon.svg" alt="">
-                </div>
-
-                <div class="bg-jet text-platinum grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8  border-b border-gray-200 dark:border-gray-700">
-                    <div>
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-6 h-6 stroke-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                            </svg>
-                            <h2 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">
-                                Laravel
-                            </h2>
-                        </div>
-
-                        <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                            At Forloop, we use Laravel to build powerful, secure, and scalable web applications.
-                            Its flexibility allows us to create custom solutions that fit your specific business needs, ensuring robust performance and a seamless user experience.
-                        </p>
-
-                        <!-- <p class="mt-4 text-sm">
-                            <a href="https://laravel.com/docs" class="inline-flex items-center font-semibold text-indigo-700 dark:text-indigo-300">
-                                Explore the documentation
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="ms-1 w-5 h-5 fill-indigo-500 dark:fill-indigo-200">
-                                    <path fill-rule="evenodd" d="M5 10a.75.75 0 01.75-.75h6.638L10.23 7.29a.75.75 0 111.04-1.08l3.5 3.25a.75.75 0 010 1.08l-3.5 3.25a.75.75 0 11-1.04-1.08l2.158-1.96H5.75A.75.75 0 015 10z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        </p> -->
-                    </div>
-
-                    
-
-                    <div>
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-6 h-6 stroke-gray-400">
-                                <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                            </svg>
-                            <h2 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">
-                            Python
-                            </h2>
-                        </div>
-
-                        <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                            For data-driven solutions, automation, and system integration,
-                            Python is our go-to. It enables us to craft efficient backend processes that streamline your operations,
-                            improve productivity, and enhance overall business functionality.
-                        </p>
-
-                        <!-- <p class="mt-4 text-sm">
-                            <a href="https://laracasts.com" class="inline-flex items-center font-semibold text-indigo-700 dark:text-indigo-300">
-                                Start watching Laracasts
-
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="ms-1 w-5 h-5 fill-indigo-500 dark:fill-indigo-200">
-                                    <path fill-rule="evenodd" d="M5 10a.75.75 0 01.75-.75h6.638L10.23 7.29a.75.75 0 111.04-1.08l3.5 3.25a.75.75 0 010 1.08l-3.5 3.25a.75.75 0 11-1.04-1.08l2.158-1.96H5.75A.75.75 0 015 10z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        </p> -->
-                    </div>
-
-                    <div>
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-6 h-6 stroke-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                            </svg>
-                            <h2 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">
-                                Vue JS
-                            </h2>
-                        </div>
-
-                        <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                            With Vue.js, we deliver dynamic and interactive front-end experiences.
-                            This modern JavaScript framework helps us build responsive and fast applications, 
-                            making sure your users enjoy a smooth and engaging interface.
-                        </p>
-                    </div>
-
-                    <div>
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-6 h-6 stroke-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                            </svg>
-                            <h2 class="ms-3 text-xl font-semibold text-gray-900 dark:text-white">
-                                Wordpress
-                            </h2>
-                        </div>
-
-                        <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                            Our expertise in WordPress allows us to create flexible, easy-to-manage websites.
-                            Whether you need a custom theme or plugin, we build solutions that put you in control of your
-                            content without sacrificing design or performance.
-                        </p>
-                    </div>
-                    <div class="flex justify-center mt-16 px-6 sm:items-center sm:justify-between">
-                        <div class="text-center text-sm sm:text-start">
-                            &nbsp;
-                        </div>
-
-                        <div class="text-center text-sm sm:text-end sm:ms-0">
-                            Built by Forloop 2024
-                        </div>
+                    <p class="text-lg sm:text-xl text-platinum/75 max-w-xl leading-relaxed mb-10">
+                        Forloop specializes in custom software that improves processes, solves hard problems,
+                        and scales with your business.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#services"
+                            class="px-7 py-3.5 font-bold text-sm tracking-wide text-white rounded transition-all duration-200 hover:opacity-90 hover:scale-105"
+                            style="background: linear-gradient(135deg, #8ED081, #1EA896, #3066BE)">
+                            Our Services
+                        </a>
+                        <Link href="/blog"
+                            class="px-7 py-3.5 font-bold text-sm tracking-wide border border-platinum/30 text-platinum hover:border-persianGreen hover:text-persianGreen rounded transition-all duration-200">
+                            Read the Blog
+                        </Link>
                     </div>
                 </div>
             </div>
 
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+                <span class="text-xs text-platinum/60 uppercase tracking-widest">Scroll</span>
+                <div class="w-px h-10 bg-gradient-to-b from-platinum/60 to-transparent"></div>
+            </div>
+        </section>
 
-        </div>
+        <!-- ── Services ───────────────────────────────────────── -->
+        <section id="services" class="bg-neutral-900 py-28 px-5 sm:px-8">
+            <div class="max-w-7xl mx-auto">
+
+                <!-- Section header -->
+                <div class="mb-16">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="h-px w-8" style="background: linear-gradient(to right, #8ED081, #3066BE)"></div>
+                        <span class="text-xs font-bold tracking-widest uppercase text-persianGreen">What We Do</span>
+                    </div>
+                    <h2 class="text-4xl sm:text-5xl font-black text-white uppercase tracking-tight">Our Expertise</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                    <!-- Card 1: Software Development -->
+                    <div class="group relative bg-neutral-800/60 border border-neutral-700 rounded-2xl p-8 overflow-hidden hover:border-persianGreen transition-all duration-300">
+                        <div class="absolute top-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            style="background: linear-gradient(to right, #8ED081, #1EA896, #3066BE)"></div>
+                        <div class="mb-6 w-14 h-14 rounded-xl flex items-center justify-center bg-neutral-700">
+                            <img src="img/processIcon.svg" alt="" class="h-8 w-8">
+                        </div>
+                        <h3 class="text-xl font-extrabold text-white mb-3 uppercase tracking-tight">Software Development</h3>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-4">
+                            Custom software to automate tasks, streamline workflows, and eliminate the bottlenecks slowing your team down.
+                        </p>
+                        <ul class="space-y-1.5">
+                            <li v-for="item in ['Process Automation', 'Custom Tooling', 'Business Intelligence']" :key="item"
+                                class="flex items-center gap-2 text-xs text-neutral-400">
+                                <div class="w-1 h-1 rounded-full bg-persianGreen flex-shrink-0"></div>
+                                {{ item }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 2: Web Development (featured) -->
+                    <div class="group relative rounded-2xl p-8 overflow-hidden"
+                        style="background: linear-gradient(135deg, #1EA896 0%, #3066BE 100%)">
+                        <div class="absolute inset-0 opacity-10"
+                            style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='1.5' fill='white'/%3E%3C/svg%3E&quot;)"></div>
+                        <div class="relative">
+                            <div class="mb-6 w-14 h-14 rounded-xl flex items-center justify-center bg-white/20">
+                                <img src="img/webDevIcon.svg" alt="" class="h-8 w-8 brightness-0 invert">
+                            </div>
+                            <h3 class="text-xl font-extrabold text-white mb-3 uppercase tracking-tight">Web Development</h3>
+                            <p class="text-white/80 text-sm leading-relaxed mb-4">
+                                Responsive, fast, and SEO-optimized websites — from custom WordPress builds to full-stack web applications.
+                            </p>
+                            <ul class="space-y-1.5">
+                                <li v-for="item in ['WordPress & CMS', 'Full-Stack Apps', 'UX/UI Design']" :key="item"
+                                    class="flex items-center gap-2 text-xs text-white/80">
+                                    <div class="w-1 h-1 rounded-full bg-white flex-shrink-0"></div>
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Drone -->
+                    <div class="group relative bg-neutral-800/60 border border-neutral-700 rounded-2xl p-8 overflow-hidden hover:border-persianGreen transition-all duration-300">
+                        <div class="absolute top-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            style="background: linear-gradient(to right, #8ED081, #1EA896, #3066BE)"></div>
+                        <div class="mb-6 w-14 h-14 rounded-xl flex items-center justify-center bg-neutral-700">
+                            <img src="img/droneIcon.svg" alt="" class="h-8 w-8">
+                        </div>
+                        <h3 class="text-xl font-extrabold text-white mb-3 uppercase tracking-tight">Drone Videography</h3>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-4">
+                            Stunning aerial footage for real estate, events, and marketing — delivered with professional-grade equipment.
+                        </p>
+                        <ul class="space-y-1.5">
+                            <li v-for="item in ['Real Estate', 'Event Coverage', 'Construction Monitoring']" :key="item"
+                                class="flex items-center gap-2 text-xs text-neutral-400">
+                                <div class="w-1 h-1 rounded-full bg-persianGreen flex-shrink-0"></div>
+                                {{ item }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Why Forloop ────────────────────────────────────── -->
+        <section class="bg-jet py-28 px-5 sm:px-8 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-5"
+                style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='%231EA896'/%3E%3C/svg%3E&quot;)"></div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="h-px w-8" style="background: linear-gradient(to right, #8ED081, #3066BE)"></div>
+                            <span class="text-xs font-bold tracking-widest uppercase text-persianGreen">Why Choose Us</span>
+                        </div>
+                        <h2 class="text-4xl sm:text-5xl font-black text-white uppercase tracking-tight mb-6">
+                            Technical depth.<br>
+                            <span style="background: linear-gradient(135deg, #8ED081, #1EA896); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                                Business focus.
+                            </span>
+                        </h2>
+                        <p class="text-neutral-400 leading-relaxed mb-8">
+                            We combine technical expertise with a deep understanding of business processes,
+                            ensuring our solutions are effective, scalable, and tailored to your needs.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div v-for="stat in [
+                                { value: 'Custom', label: 'Every solution' },
+                                { value: 'Scalable', label: 'Built to grow' },
+                                { value: 'Fast', label: 'Delivery focused' },
+                                { value: 'Full-Stack', label: 'End-to-end' }
+                            ]" :key="stat.value"
+                                class="bg-neutral-800/50 border border-neutral-700 rounded-xl p-4">
+                                <div class="text-lg font-black text-persianGreen">{{ stat.value }}</div>
+                                <div class="text-xs text-neutral-500 font-semibold uppercase tracking-wide">{{ stat.label }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <img src="img/laptopImage.jpg" alt="Forloop work" class="rounded-2xl shadow-2xl w-full object-cover">
+                        <div class="absolute -bottom-4 -right-4 w-3/4 h-3/4 rounded-2xl -z-10 opacity-40"
+                            style="background: linear-gradient(135deg, #1EA896, #3066BE)"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Tech Stack ─────────────────────────────────────── -->
+        <section class="bg-neutral-900 py-20 px-5 sm:px-8 border-t border-neutral-800">
+            <div class="max-w-7xl mx-auto">
+                <p class="text-center text-xs font-bold tracking-widest uppercase text-neutral-600 mb-10">Our Tech Stack</p>
+                <div class="flex items-center justify-center flex-wrap gap-12">
+                    <img class="h-10 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-300" src="img/laravel-2.svg" alt="Laravel">
+                    <img class="h-10 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-300" src="img/python-5.svg" alt="Python">
+                    <img class="h-10 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-300" src="img/vue-9.svg" alt="Vue.js">
+                    <img class="h-10 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-300" src="img/wordpress-icon.svg" alt="WordPress">
+                </div>
+            </div>
+        </section>
+
+        <!-- ── CTA ───────────────────────────────────────────── -->
+        <section class="py-28 px-5 sm:px-8 relative overflow-hidden" style="background: linear-gradient(135deg, #1EA896 0%, #3066BE 100%)">
+            <div class="absolute inset-0 opacity-10"
+                style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='1.5' fill='white'/%3E%3C/svg%3E&quot;)"></div>
+            <div class="relative max-w-3xl mx-auto text-center">
+                <h2 class="text-4xl sm:text-5xl font-black text-white uppercase tracking-tight mb-5">
+                    Ready to build something great?
+                </h2>
+                <p class="text-white/75 text-lg mb-10">
+                    Let's talk about your project and how Forloop can help you move faster.
+                </p>
+                <Link href="/blog"
+                    class="inline-block px-8 py-4 bg-white font-black text-sm tracking-wide uppercase text-jet rounded hover:scale-105 transition-transform duration-200">
+                    See Our Latest Work
+                </Link>
+            </div>
+        </section>
+
+        <!-- ── Footer ────────────────────────────────────────── -->
+        <footer class="bg-jet border-t border-neutral-800 py-10 px-5 sm:px-8">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                <img src="img/logo_name_light.png" alt="Forloop" class="h-8">
+                <p class="text-neutral-600 text-xs font-semibold uppercase tracking-widest">© 2024 Forloop. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <Link href="/blog" class="text-neutral-500 hover:text-persianGreen text-xs font-semibold uppercase tracking-wide transition-colors">Blog</Link>
+                    <Link v-if="canLogin" :href="route('login')" class="text-neutral-500 hover:text-persianGreen text-xs font-semibold uppercase tracking-wide transition-colors">Log In</Link>
+                </div>
+            </div>
+        </footer>
+
     </div>
 </template>
-
-<style>
-.bg-dots-darker {
-    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
-}
-@media (prefers-color-scheme: dark) {
-    .dark\:bg-dots-lighter {
-        background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");
-    }
-}
-</style>

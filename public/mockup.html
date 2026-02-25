@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Screenshot Mockup Preview</title>
+<style>
+  body { background: #1e1e1e; font-family: -apple-system, sans-serif; display: flex; gap: 40px; padding: 40px; flex-wrap: wrap; align-items: flex-start; }
+  h3 { color: #aaa; font-size: 13px; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .card { background: #2a2a2a; border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+
+  /* ── Shared annotation helpers ─────────────────── */
+  .wrap { position: relative; display: inline-block; }
+  .redact {
+    position: absolute; background: #555; border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    color: #999; font-size: 11px; letter-spacing: 0.5px;
+  }
+  .arrow {
+    position: absolute; pointer-events: none;
+  }
+  .highlight {
+    position: absolute; background: rgba(255,230,0,0.35);
+    border: 2px solid rgba(255,200,0,0.8); border-radius: 4px;
+  }
+
+  /* ── IMG 1: Apple Menu ─────────────────────────── */
+  .menu {
+    background: #2b2b2b; border-radius: 10px;
+    width: 260px; padding: 6px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    font-size: 14px; color: #f0f0f0;
+  }
+  .menu-item { padding: 5px 18px; cursor: default; }
+  .menu-item:hover { background: #3a7af7; border-radius: 6px; margin: 0 4px; padding: 5px 14px; }
+  .menu-sep { height: 1px; background: #444; margin: 4px 0; }
+  .menu-item.target { background: rgba(255,230,0,0.15); border-radius: 6px; margin: 0 4px; padding: 5px 14px; }
+  .menu-item.redacted { color: #888; }
+
+  /* ── IMG 2: System Settings ────────────────────── */
+  .settings-win {
+    display: flex; width: 560px; height: 480px;
+    background: #232323; border-radius: 12px; overflow: hidden;
+    border: 1px solid #3a3a3a;
+  }
+  .sidebar {
+    width: 180px; background: #1e1e1e; padding: 12px 0;
+    font-size: 13px; color: #d0d0d0; flex-shrink: 0; overflow: hidden;
+  }
+  .sidebar-section { padding: 3px 12px; display: flex; align-items: center; gap: 8px; }
+  .sidebar-section.active { background: #3a3a3a; border-radius: 6px; margin: 0 6px; padding: 3px 6px; }
+  .sidebar-section .icon { width: 20px; height: 20px; background: #555; border-radius: 4px; flex-shrink: 0; }
+  .sidebar-section .icon.blue { background: #3a7af7; }
+  .sidebar-header { padding: 8px 12px 4px; color: #888; font-size: 11px; }
+  .main-area { flex: 1; padding: 20px; overflow: hidden; }
+  .main-area h2 { color: #f0f0f0; font-size: 18px; margin: 0 0 16px; }
+  .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #333; font-size: 13px; color: #d0d0d0; }
+  .btn { background: #3a3a3a; border: 1px solid #555; border-radius: 6px; padding: 5px 12px; font-size: 12px; color: #d0d0d0; }
+  .btn.target { background: rgba(255,230,0,0.2); border-color: rgba(255,200,0,0.7); }
+
+  /* ── IMG 3: Modifier Keys ──────────────────────── */
+  .kbd-win {
+    display: flex; width: 600px;
+    background: #232323; border-radius: 12px; overflow: hidden;
+    border: 1px solid #3a3a3a;
+  }
+  .kbd-sidebar {
+    width: 200px; background: #1e1e1e; padding: 12px 0;
+    font-size: 13px; color: #d0d0d0; flex-shrink: 0;
+  }
+  .kbd-sidebar-item { padding: 5px 14px; }
+  .kbd-sidebar-item.active { background: #3a7af7; border-radius: 6px; margin: 0 6px; padding: 5px 8px; color: white; }
+  .kbd-main { flex: 1; padding: 20px; }
+  .kbd-select { background: #2e2e2e; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #d0d0d0; border: 1px solid #444; margin-bottom: 12px; display: flex; justify-content: space-between; }
+  .key-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; font-size: 13px; color: #d0d0d0; border-bottom: 1px solid #2e2e2e; }
+  .key-row .val { color: #aaa; display: flex; align-items: center; gap: 4px; }
+  .key-row.highlighted { background: rgba(255,230,0,0.12); border-radius: 6px; border-bottom: none; }
+  .footer-btns { display: flex; justify-content: space-between; margin-top: 20px; }
+  .kbd-btn { background: #3a3a3a; border: 1px solid #555; border-radius: 6px; padding: 6px 16px; font-size: 12px; color: #d0d0d0; }
+  .kbd-btn.blue { background: #3a7af7; border-color: #3a7af7; color: white; }
+
+  /* ── SVG Arrow ─────────────────────────────────── */
+  svg.ann { position: absolute; overflow: visible; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     IMAGE 1 — Apple Menu
+═══════════════════════════════════════════ -->
+<div class="card">
+  <h3>Screenshot 1 — Apple Menu</h3>
+  <div class="wrap">
+    <div class="menu">
+      <div class="menu-item" style="color:#aaa;font-size:13px">About This Mac</div>
+      <div class="menu-sep"></div>
+      <div class="menu-item target" id="ss">System Settings…</div>
+      <div class="menu-item">App Store</div>
+      <div class="menu-sep"></div>
+      <div class="menu-item">Recent Items ›</div>
+      <div class="menu-sep"></div>
+      <div class="menu-item">Force Quit Finder</div>
+      <div class="menu-sep"></div>
+      <div class="menu-item">Sleep</div>
+      <div class="menu-item">Restart…</div>
+      <div class="menu-item">Shut Down…</div>
+      <div class="menu-sep"></div>
+      <div class="menu-item redacted" style="position:relative">
+        Lock Screen
+      </div>
+      <!-- Redaction over personal name -->
+      <div class="menu-item" style="position:relative; padding:5px 18px;">
+        <span style="color:#888">Log Out </span>
+        <span style="display:inline-block;background:#555;border-radius:3px;padding:1px 8px;color:#555;font-size:12px;vertical-align:middle;margin:0 2px">[redacted]</span>
+      </div>
+    </div>
+
+    <!-- Red arrow pointing at System Settings -->
+    <svg class="ann" width="80" height="40" style="left:260px;top:30px">
+      <defs>
+        <marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L6,3 z" fill="#e03"/>
+        </marker>
+      </defs>
+      <line x1="70" y1="20" x2="8" y2="20" stroke="#e03" stroke-width="2.5" marker-end="url(#a1)"/>
+      <text x="72" y="14" fill="#e03" font-size="10" font-family="-apple-system,sans-serif">Click here</text>
+    </svg>
+  </div>
+  <p style="color:#888;font-size:11px;margin:8px 0 0">✦ "Log Out [Name]" text will be blurred/boxed</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+     IMAGE 2 — System Settings › Keyboard
+═══════════════════════════════════════════ -->
+<div class="card">
+  <h3>Screenshot 2 — System Settings › Keyboard</h3>
+  <div class="wrap">
+    <div class="settings-win">
+      <div class="sidebar">
+        <!-- Redacted user profile at top -->
+        <div style="padding:10px 12px 8px; border-bottom:1px solid #333; margin-bottom:6px; position:relative;">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:32px;height:32px;border-radius:50%;background:#555;flex-shrink:0"></div>
+            <div>
+              <div style="background:#555;border-radius:3px;height:10px;width:80px;margin-bottom:4px"></div>
+              <div style="background:#444;border-radius:3px;height:8px;width:60px"></div>
+            </div>
+          </div>
+          <!-- Redact label -->
+          <div style="position:absolute;bottom:14px;right:8px;background:#555;border-radius:3px;padding:1px 5px;font-size:9px;color:#888">[redacted]</div>
+        </div>
+        <div class="sidebar-section"><div class="icon blue"></div>Wi-Fi</div>
+        <div class="sidebar-section"><div class="icon" style="background:#1ea8d0"></div>Bluetooth</div>
+        <div class="sidebar-section"><div class="icon"></div>Network</div>
+        <div style="height:6px"></div>
+        <div class="sidebar-section"><div class="icon" style="background:#888"></div>General</div>
+        <div class="sidebar-section"><div class="icon" style="background:#888"></div>Appearance</div>
+        <div class="sidebar-section"><div class="icon" style="background:#888"></div>…</div>
+        <div style="height:6px"></div>
+        <div class="sidebar-section active"><div class="icon blue"></div><b>Keyboard</b></div>
+        <div class="sidebar-section"><div class="icon"></div>Trackpad</div>
+        <div style="height:6px"></div>
+        <!-- AirPods redacted -->
+        <div class="sidebar-section" style="position:relative">
+          <div class="icon" style="background:#555"></div>
+          <div style="background:#555;border-radius:3px;height:9px;width:90px"></div>
+          <div style="position:absolute;right:4px;bottom:4px;background:#555;border-radius:3px;padding:1px 4px;font-size:8px;color:#888">[redacted]</div>
+        </div>
+      </div>
+      <div class="main-area">
+        <h2>Keyboard</h2>
+        <div class="setting-row"><span>Key repeat rate</span><span style="color:#888">●──────●</span></div>
+        <div class="setting-row"><span>Delay until repeat</span><span style="color:#888">────●──</span></div>
+        <div class="setting-row"><span>Keyboard navigation</span><span style="color:#888">○</span></div>
+        <div style="margin-top:16px; display:flex; gap:10px; position:relative;">
+          <div class="btn">Touch Bar Settings…</div>
+          <div class="btn target" id="kbshort">Keyboard Shortcuts…</div>
+          <!-- Arrow -->
+          <svg class="ann" width="60" height="50" style="right:-65px;top:-10px">
+            <defs>
+              <marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L6,3 z" fill="#e03"/>
+              </marker>
+            </defs>
+            <line x1="55" y1="20" x2="8" y2="20" stroke="#e03" stroke-width="2.5" marker-end="url(#a2)"/>
+            <text x="0" y="40" fill="#e03" font-size="10" font-family="-apple-system">Click</text>
+          </svg>
+        </div>
+        <div style="margin-top:20px;font-size:12px;color:#888">Text Input › Input Sources: U.S.</div>
+      </div>
+    </div>
+  </div>
+  <p style="color:#888;font-size:11px;margin:8px 0 0">✦ Name, Apple ID, and AirPods label replaced with gray bars</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+     IMAGE 3 — Modifier Keys (already swapped)
+═══════════════════════════════════════════ -->
+<div class="card">
+  <h3>Screenshot 3 — Keyboard Shortcuts › Modifier Keys</h3>
+  <div class="wrap">
+    <div class="kbd-win">
+      <div class="kbd-sidebar">
+        <div class="kbd-sidebar-item">Launchpad &amp; Dock</div>
+        <div class="kbd-sidebar-item">Display</div>
+        <div class="kbd-sidebar-item">Mission Control</div>
+        <div class="kbd-sidebar-item">Windows</div>
+        <div class="kbd-sidebar-item">Keyboard</div>
+        <div class="kbd-sidebar-item">Input Sources</div>
+        <div class="kbd-sidebar-item">Screenshots</div>
+        <div class="kbd-sidebar-item">Services</div>
+        <div class="kbd-sidebar-item">Spotlight</div>
+        <div class="kbd-sidebar-item">Accessibility</div>
+        <div class="kbd-sidebar-item">App Shortcuts</div>
+        <div class="kbd-sidebar-item">Function Keys</div>
+        <div class="kbd-sidebar-item active">Modifier Keys</div>
+      </div>
+      <div class="kbd-main">
+        <div class="kbd-select">
+          <span>Select keyboard</span>
+          <span style="color:#aaa">Apple Internal Keyboard / Trackpad ⌄</span>
+        </div>
+        <div style="font-size:12px;color:#888;margin-bottom:10px;padding:0 14px">For each modifier key, choose the action you want it to perform.</div>
+
+        <div class="key-row"><span>Caps Lock (⇪) key</span><span class="val">⇪ Caps Lock ⌄</span></div>
+
+        <!-- HIGHLIGHTED ROW 1 -->
+        <div class="key-row highlighted">
+          <span>Control (^) key</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <svg width="50" height="20" style="display:inline-block;flex-shrink:0">
+              <defs>
+                <marker id="a3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#e03"/>
+                </marker>
+              </defs>
+              <line x1="2" y1="10" x2="44" y2="10" stroke="#e03" stroke-width="2.5" marker-end="url(#a3)"/>
+            </svg>
+            <span class="val" style="color:#f0c040">⌘ Command ⌄</span>
+          </div>
+        </div>
+
+        <div class="key-row"><span>Option (⌥) key</span><span class="val">⌥ Option ⌄</span></div>
+
+        <!-- HIGHLIGHTED ROW 2 -->
+        <div class="key-row highlighted">
+          <span>Command (⌘) key</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <svg width="50" height="20" style="display:inline-block;flex-shrink:0">
+              <defs>
+                <marker id="a4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#e03"/>
+                </marker>
+              </defs>
+              <line x1="2" y1="10" x2="44" y2="10" stroke="#e03" stroke-width="2.5" marker-end="url(#a4)"/>
+            </svg>
+            <span class="val" style="color:#f0c040">^ Control ⌄</span>
+          </div>
+        </div>
+
+        <div class="key-row"><span>Function (fn) key</span><span class="val">fn Function ⌄</span></div>
+
+        <div class="footer-btns">
+          <div class="kbd-btn">Restore Defaults</div>
+          <div class="kbd-btn blue">Done</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="color:#888;font-size:11px;margin:8px 0 0">✦ No personal info · Swapped rows highlighted in yellow + red arrows</p>
+</div>
+
+</body>
+</html>
