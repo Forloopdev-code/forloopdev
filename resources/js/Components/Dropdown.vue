@@ -12,7 +12,7 @@ const props = defineProps({
     },
     contentClasses: {
         type: Array,
-        default: () => ['py-1', 'bg-white dark:bg-gray-700'],
+        default: () => ['py-1', 'bg-neutral-800', 'border', 'border-neutral-700'],
     },
 });
 
@@ -30,6 +30,7 @@ onUnmounted(() => document.removeEventListener('keydown', closeOnEscape));
 const widthClass = computed(() => {
     return {
         '48': 'w-48',
+        '60': 'w-60',
     }[props.width.toString()];
 });
 
@@ -65,12 +66,12 @@ const alignmentClasses = computed(() => {
         >
             <div
                 v-show="open"
-                class="absolute z-50 mt-2 rounded-md shadow-lg"
+                class="absolute z-50 mt-2 rounded-md shadow-xl"
                 :class="[widthClass, alignmentClasses]"
                 style="display: none;"
                 @click="open = false"
             >
-                <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
+                <div class="rounded-md ring-1 ring-black ring-opacity-20" :class="contentClasses">
                     <slot name="content" />
                 </div>
             </div>

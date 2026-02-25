@@ -37,15 +37,12 @@ Route::post('/contact', [ContactController::class, 'store'])
     ->middleware('throttle:10,1')
     ->name('contact.store');
 
-// Route::middleware([
-//     'auth:sanctum',
-//     config('jetstream.auth_session'),
-//     'verified',
-// ])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return Inertia::render('Dashboard');
-//     })->name('dashboard');
-// });
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->name('dashboard');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+});
