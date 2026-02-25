@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,6 +24,18 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/blog', function () {
+    return Inertia::render('Blog/Index');
+})->name('blog');
+
+Route::get('/blog/swap-command-control-keys-mac', function () {
+    return Inertia::render('Blog/SwapCommandControl');
+})->name('blog.swap-command-control');
+
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('contact.store');
 
 // Route::middleware([
 //     'auth:sanctum',
