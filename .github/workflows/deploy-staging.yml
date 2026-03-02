@@ -1,0 +1,36 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_ACCESS_TOKEN }}
+
+      - name: Trigger DigitalOcean App Platform deployment
+        run: |
+          echo "Triggering deployment for staging app..."
+          doctl apps create-deployment ${{ secrets.DO_APP_ID_STAGING }} --force-rebuild --wait
+
+      - name: Deployment notification
+        if: success()
+        run: |
+          echo "✅ Staging deployment successful!"
+          echo "App URL: https://forloopdev-staging.ondigitalocean.app"
+
+      - name: Deployment failed notification
+        if: failure()
+        run: |
+          echo "❌ Staging deployment failed!"
+          echo "Check the DigitalOcean App Platform logs for details."

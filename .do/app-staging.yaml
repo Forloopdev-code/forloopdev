@@ -1,0 +1,267 @@
+name: forloopdev-staging
+region: nyc3
+
+services:
+  - name: web
+    github:
+      repo: Forloopdev-code/forloopdev
+      branch: develop
+      deploy_on_push: true
+
+    build_command: |
+      composer install --no-dev --optimize-autoloader --no-interaction
+      npm ci
+      npm run build
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+
+    run_command: |
+      php artisan migrate --force
+      vendor/bin/heroku-php-apache2 public/
+
+    environment_slug: php
+    instance_count: 2
+    instance_size_slug: professional-xs
+
+    http_port: 8080
+
+    health_check:
+      http_path: /
+      initial_delay_seconds: 60
+      period_seconds: 10
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
+
+    envs:
+      # Application
+      - key: APP_NAME
+        value: "Forloop"
+      - key: APP_ENV
+        value: "staging"
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        value: ${STAGING_APP_KEY}
+        type: SECRET
+      - key: APP_URL
+        value: ${APP_URL}
+      - key: LOG_CHANNEL
+        value: "stack"
+      - key: LOG_LEVEL
+        value: "debug"
+
+      # Database (MySQL)
+      - key: DB_CONNECTION
+        value: "mysql"
+      - key: DB_HOST
+        value: ${STAGING_DB_HOST}
+        type: SECRET
+      - key: DB_PORT
+        value: "25060"
+      - key: DB_DATABASE
+        value: ${STAGING_DB_DATABASE}
+        type: SECRET
+      - key: DB_USERNAME
+        value: ${STAGING_DB_USERNAME}
+        type: SECRET
+      - key: DB_PASSWORD
+        value: ${STAGING_DB_PASSWORD}
+        type: SECRET
+
+      # Cache & Sessions (Redis/Valkey)
+      - key: CACHE_DRIVER
+        value: "redis"
+      - key: SESSION_DRIVER
+        value: "redis"
+      - key: SESSION_LIFETIME
+        value: "120"
+      - key: QUEUE_CONNECTION
+        value: "redis"
+      - key: REDIS_SCHEME
+        value: "tls"
+      - key: REDIS_CLIENT
+        value: "phpredis"
+      - key: REDIS_HOST
+        value: ${STAGING_REDIS_HOST}
+        type: SECRET
+      - key: REDIS_PASSWORD
+        value: ${STAGING_REDIS_PASSWORD}
+        type: SECRET
+      - key: REDIS_PORT
+        value: "25061"
+
+      # File Storage (DigitalOcean Spaces)
+      - key: FILESYSTEM_DISK
+        value: "s3"
+      - key: AWS_ACCESS_KEY_ID
+        value: ${STAGING_SPACES_KEY}
+        type: SECRET
+      - key: AWS_SECRET_ACCESS_KEY
+        value: ${STAGING_SPACES_SECRET}
+        type: SECRET
+      - key: AWS_DEFAULT_REGION
+        value: "nyc3"
+      - key: AWS_BUCKET
+        value: "forloopdev-staging-uploads"
+      - key: AWS_ENDPOINT
+        value: "https://nyc3.digitaloceanspaces.com"
+      - key: AWS_URL
+        value: "https://forloopdev-staging-uploads.nyc3.digitaloceanspaces.com"
+      - key: AWS_USE_PATH_STYLE_ENDPOINT
+        value: "false"
+
+      # Mail
+      - key: MAIL_MAILER
+        value: "smtp"
+      - key: MAIL_HOST
+        value: "smtp.sendgrid.net"
+      - key: MAIL_PORT
+        value: "587"
+      - key: MAIL_USERNAME
+        value: ${STAGING_MAIL_USERNAME}
+        type: SECRET
+      - key: MAIL_PASSWORD
+        value: ${STAGING_MAIL_PASSWORD}
+        type: SECRET
+      - key: MAIL_ENCRYPTION
+        value: "tls"
+      - key: MAIL_FROM_ADDRESS
+        value: "staging@forloop.dev"
+      - key: MAIL_FROM_NAME
+        value: "Forloop (Staging)"
+
+      # Broadcasting
+      - key: BROADCAST_DRIVER
+        value: "log"
+
+      # Vite
+      - key: VITE_APP_NAME
+        value: "Forloop"
+
+  # Queue Worker
+  - name: worker
+    github:
+      repo: Forloopdev-code/forloopdev
+      branch: develop
+      deploy_on_push: true
+
+    build_command: |
+      composer install --no-dev --optimize-autoloader --no-interaction
+
+    run_command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600
+
+    environment_slug: php
+    instance_count: 1
+    instance_size_slug: professional-xs
+
+    # Copy all envs from web service
+    envs:
+      - key: APP_NAME
+        value: "Forloop"
+      - key: APP_ENV
+        value: "staging"
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        value: ${STAGING_APP_KEY}
+        type: SECRET
+      - key: APP_URL
+        value: ${APP_URL}
+      - key: DB_CONNECTION
+        value: "mysql"
+      - key: DB_HOST
+        value: ${STAGING_DB_HOST}
+        type: SECRET
+      - key: DB_PORT
+        value: "25060"
+      - key: DB_DATABASE
+        value: ${STAGING_DB_DATABASE}
+        type: SECRET
+      - key: DB_USERNAME
+        value: ${STAGING_DB_USERNAME}
+        type: SECRET
+      - key: DB_PASSWORD
+        value: ${STAGING_DB_PASSWORD}
+        type: SECRET
+      - key: CACHE_DRIVER
+        value: "redis"
+      - key: QUEUE_CONNECTION
+        value: "redis"
+      - key: REDIS_SCHEME
+        value: "tls"
+      - key: REDIS_CLIENT
+        value: "phpredis"
+      - key: REDIS_HOST
+        value: ${STAGING_REDIS_HOST}
+        type: SECRET
+      - key: REDIS_PASSWORD
+        value: ${STAGING_REDIS_PASSWORD}
+        type: SECRET
+      - key: REDIS_PORT
+        value: "25061"
+
+  # Scheduler (Cron)
+  - name: scheduler
+    github:
+      repo: Forloopdev-code/forloopdev
+      branch: develop
+      deploy_on_push: true
+
+    build_command: |
+      composer install --no-dev --optimize-autoloader --no-interaction
+
+    run_command: |
+      while true; do
+        php artisan schedule:run --verbose --no-interaction
+        sleep 60
+      done
+
+    environment_slug: php
+    instance_count: 1
+    instance_size_slug: professional-xs
+
+    # Copy all envs from web service
+    envs:
+      - key: APP_NAME
+        value: "Forloop"
+      - key: APP_ENV
+        value: "staging"
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        value: ${STAGING_APP_KEY}
+        type: SECRET
+      - key: APP_URL
+        value: ${APP_URL}
+      - key: DB_CONNECTION
+        value: "mysql"
+      - key: DB_HOST
+        value: ${STAGING_DB_HOST}
+        type: SECRET
+      - key: DB_PORT
+        value: "25060"
+      - key: DB_DATABASE
+        value: ${STAGING_DB_DATABASE}
+        type: SECRET
+      - key: DB_USERNAME
+        value: ${STAGING_DB_USERNAME}
+        type: SECRET
+      - key: DB_PASSWORD
+        value: ${STAGING_DB_PASSWORD}
+        type: SECRET
+      - key: CACHE_DRIVER
+        value: "redis"
+      - key: REDIS_SCHEME
+        value: "tls"
+      - key: REDIS_CLIENT
+        value: "phpredis"
+      - key: REDIS_HOST
+        value: ${STAGING_REDIS_HOST}
+        type: SECRET
+      - key: REDIS_PASSWORD
+        value: ${STAGING_REDIS_PASSWORD}
+        type: SECRET
+      - key: REDIS_PORT
+        value: "25061"

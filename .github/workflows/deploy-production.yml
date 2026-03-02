@@ -1,0 +1,55 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://forloop.dev
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_ACCESS_TOKEN }}
+
+      - name: Trigger DigitalOcean App Platform deployment
+        run: |
+          echo "Triggering deployment for production app..."
+          doctl apps create-deployment ${{ secrets.DO_APP_ID_PRODUCTION }} --force-rebuild --wait
+
+      - name: Run smoke tests
+        run: |
+          echo "Running smoke tests..."
+          sleep 30
+
+          # Health check
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://forloop.dev)
+          if [ $response -eq 200 ]; then
+            echo "✅ Health check passed (HTTP $response)"
+          else
+            echo "❌ Health check failed (HTTP $response)"
+            exit 1
+          fi
+
+      - name: Deployment notification
+        if: success()
+        run: |
+          echo "✅ Production deployment successful!"
+          echo "App URL: https://forloop.dev"
+
+      - name: Deployment failed notification
+        if: failure()
+        run: |
+          echo "❌ Production deployment failed!"
+          echo "Check the DigitalOcean App Platform logs for details."
+          echo "Consider rolling back to the previous deployment."
